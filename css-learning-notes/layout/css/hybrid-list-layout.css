@@ -1,0 +1,54 @@
+﻿@charset 'UTF-8';
+
+body {
+  margin: 0;
+}
+
+.top {
+  height: 100px;
+  background-color: #f00;
+}
+.header {
+  width: 800px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: #ccc;
+}
+
+.main {
+  width: 800px;
+  height: 500px;
+  margin: 0 auto;
+  background-color: #0f0;
+}
+.left {
+  width: 200px;
+  height: 500px;
+  float: left;
+  background-color: #ff0;
+}
+.right {
+  width: 600px;
+  height: 500px;
+  float: right;
+  background-color: #0ff;
+}
+.sub-l {
+  width: 300px;
+  height: 500px;
+  float: left;
+  background-color: #f0f;
+}
+.sub-r {
+  width: 300px;
+  height: 500px;
+  float: right;
+  background-color: #000;
+}
+
+.footer {
+  width: 800px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: #00f;
+}

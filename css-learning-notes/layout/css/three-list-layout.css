@@ -1,0 +1,29 @@
+﻿@charset 'UTF-8';
+
+body {
+  margin: 0;
+}
+
+.left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 500px;
+  background-color: #f00;
+}
+
+.middle {
+  height: 500px;
+  margin: 0 310px 0 210px;
+  background-color: #0f0;
+}
+
+.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 500px;
+  background-color: #00f;
+};
