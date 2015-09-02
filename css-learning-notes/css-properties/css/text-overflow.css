@@ -1,0 +1,12 @@
+﻿@charset 'UTF-8';
+
+ul,
+li {
+  width: 200px;
+}
+
+li {
+  border: 1px solid #000;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
