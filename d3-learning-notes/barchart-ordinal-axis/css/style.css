@@ -1,0 +1,12 @@
+﻿/**
+ * @name barchart-ordinal-axis
+ * @desc ordinal-axis
+ * @auth Jiangang Lu
+ * @date 2015/09/13
+ */
+
+.domain, .tick line {
+  fill: none;
+  stroke: gray;
+  stroke-width: 1;
+}

@@ -1,0 +1,24 @@
+﻿/**
+ * @name linechart1
+ * @desc 线性图表CSS
+ * @auth Jiangang Lu
+ * @date 2015/09/12
+ */
+@charset 'UTF-8';
+
+#container {
+  background-color: #ddd;
+  width: 500px;
+  height: 250px;
+}
+
+path {
+  fill: none;
+  stroke: #4682B4;
+  stroke-width: 2;
+}
+
+.domain, .tick line {
+  stroke: gray;
+  stroke-width: 1;
+}
