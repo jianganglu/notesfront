@@ -1,0 +1,77 @@
+﻿/**
+ * @name linechart3
+ * @desc 双线性图表
+ * @auth JiangangLu
+ * @date 2015/09/23
+ */
+/*
+body {
+  font: 10px sans-serif;
+}
+.y.axisRight text {
+    fill: orange;
+}
+.y.axisLeft text {
+    fill: steelblue;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.bar1 {
+  fill: steelblue;
+}
+.bar2 {
+  fill: orange;
+}
+.x.axis path {
+  display: none;
+}*/
+
+/*body {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+.grid-background {
+  fill: #ddd;
+}
+
+.grid line {
+  stroke: #fff;
+}
+
+.grid .minor line {
+  stroke-opacity: .5;
+}
+
+.grid text {
+  display: none;
+}
+
+.axis line {
+  stroke: #000;
+}
+
+.axis path,
+.grid path {
+  display: none;
+}
+*/
+
+svg {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+rect {
+  fill: #ddd;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #fff;
+}
