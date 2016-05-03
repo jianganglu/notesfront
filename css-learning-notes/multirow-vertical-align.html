@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>大小不固定的图片、多行文字的水平垂直居中</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    div {
+      width: 550px;
+      height: 550px;
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    div span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .ul-image {
+      overflow: hidden;
+      zoom: 1;
+    }
+
+    .ul-image li {
+      float: left;
+      width: 150px;
+      height: 150px;
+      line-height: 150px;
+      text-align: center;
+    }
+
+    .ul-image li:after {
+      content: ' ';
+      vertical-align: middle;
+    }
+
+    .ul-image li img {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <span>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptatibus soluta error delectus omnis quaerat eligendi recusandae enim exercitationem laudantium nam incidunt eos assumenda mollitia, placeat, laboriosam officia quibusdam eveniet!
+
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptatibus soluta error delectus omnis quaerat eligendi recusandae enim exercitationem laudantium nam incidunt eos assumenda mollitia, placeat, laboriosam officia quibusdam eveniet!
+    </span>
+  </div>
+
+  <ul class="ul-image">
+    <li><img src="##"></li>
+    <li><img src="##"></li>
+    <li><img src="##"></li>
+    <li><img src="##"></li>
+    <li><img src="##"></li>
+    <li><img src="##"></li>
+  </ul>
+</body>
+</html>
