@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>复选框或单选框与文字对齐的问题的深入研究与一</title>
+  <style>
+    body {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    input[type=radio],
+    input[type=checkbox] {
+      margin-top: -1px;
+      margin-bottom: 1px;
+      vertical-align: middle;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <form role="form">
+    <input id="radio" type="radio" name="radio">
+    <label for="radio">单选框</label>
+
+    <input id="checkbox" type="checkbox" name="checkbox">
+    <label for="checkbox">复选框</label>
+  </form>
+</body>
+</html>
