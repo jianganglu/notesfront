@@ -56,11 +56,53 @@
       border-color:#ffffff transparent transparent; 
       left:80px; 
       bottom:-33px;
-    }          
+    }
+
+    .test2 {
+      width:300px;
+      padding:80px 20px;
+      margin-left:100px;
+      background:#beceeb;
+      -webkit-border-top-left-radius:220px 120px;
+      -webkit-border-top-right-radius:220px 120px;
+      -webkit-border-bottom-right-radius:220px 120px;
+      -webkit-border-bottom-left-radius:220px 120px;
+      -moz-border-radius:220px / 120px;
+      border-radius:220px / 120px;
+      position:relative;
+    }
+
+    .test2 span{
+      width:0;
+      height:0;
+      font-size:0;
+      background:#beceeb;
+      overflow:hidden;
+      position:absolute;
+    }
+
+    .test2 span.bot{
+      width:30px;
+      height:30px;
+      -moz-border-radius:30px;
+      -webkit-border-radius:30px;
+      border-radius:30px;
+      left:10px;
+      bottom:-20px;
+    }
+    .test2 span.top{
+      width:15px;
+      height:15px;
+      -moz-border-radius:15px;
+      -webkit-border-radius:15px;
+      border-radius:15px;
+      left:0px;
+      bottom:-40px;
+    }       
   </style>
 </head>
 <body>
-  <div class="test">
+  <!-- <div class="test">
     <span class="bot"></span>
     <span class="top"></span>
     CSS “边框法”实现气泡对话框效果一
@@ -70,6 +112,12 @@
     <span class="bot"></span>
     <span class="top"></span>
     CSS “边框法”实现气泡对话框效果二
+  </div> -->
+
+  <div class="test2">
+      <span class="bot"></span>
+      <span class="top"></span>
+      CSS3 border-radius实现气泡对话框效果
   </div>
 </body>
 </html>
