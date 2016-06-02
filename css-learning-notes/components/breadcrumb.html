@@ -1,0 +1,242 @@
+<html lang="zh"><head>
+    <meta charset="UTF-8">
+    <title>progress</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="bootstrap.css" rel="stylesheet">
+    <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    a {
+        color: #666;
+    }
+
+    a:hover {
+        color: #87b46e;
+    }
+
+    .border-right {
+        border-right: 1px solid #d2d2d2;
+    }
+
+    #footer h3 {
+        margin-top: 0;
+        color: #87b46e;
+    }
+
+    #footer .subfooter {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .copyright {
+        line-height: 80px;
+        color: #fff;
+        background-color: #535353;
+        text-align: center;
+    }
+
+    .ui-progress {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .ui-progress li {
+      float: left;
+      margin: 0;
+      overflow: hidden;
+    }
+    .ui-progress span {
+      display: block;
+      float: left;
+    }
+    .ui-progress .step {
+      height: 2.2rem;
+      width: 10rem;
+      font: normal 1.3rem/2.2rem "Helvetica Neue",Helvetica,Arial,sans-serif;
+      color: #6b6b6b;
+      text-align: center;
+      background: #dcdcdc;
+    }
+    /* 箭头区域-非箭头部分 背景色 默认灰色 */
+    .ui-progress .triangle {
+      position: relative;
+      height: 2.2rem;
+      background: #dcdcdc;
+      width: 1.3rem;
+      overflow: hidden;
+    }
+    .ui-progress em,
+    .ui-progress i {
+      display: block;
+      position: absolute;
+      top: -2px;
+      overflow: hidden;
+      width: 0;
+      height: 0;
+      border-width: 15px;
+      border-style: dashed solid dashed dashed;
+    }
+    /* em 箭头区域-箭头部分 头部边框 白色 */
+    .ui-progress em {
+      left: 0px;
+      border-color: transparent transparent transparent #FFF;
+    }
+    /* i 箭头区域-箭头部分 背景颜色 默认灰色*/
+    .ui-progress i {
+      left: -2px;
+      border-color: transparent transparent transparent #dcdcdc;
+    }
+    .ui-progress .first {
+      border-radius: 3px 0 0 3px;
+    }
+    /* 最后一个的背景色透明 */
+    .ui-progress .last {
+      background: transparent;
+    }
+    /* 选中状态下 当前节点 左边箭头区域-非箭头部分 颜色绿色（形成箭尾） */
+    .ui-progress .on .triangle-left {
+      background: #89b370;
+    }
+
+    .ui-progress .on .triangle-left i {
+      border-color: transparent transparent transparent #89b370;
+    }
+
+    .ui-progress .on .triangle-right {
+      background: #b4da9c;
+    }
+    /* 选中状态下 当前节点 右边箭头区域-箭头部分 颜色绿色 */
+    .ui-progress .on .triangle-right i {
+      border-color: transparent transparent transparent #89b370;
+    }
+    .ui-progress .on .step {
+      background: #89b370;
+      color: #FFF;
+    }
+    /* 选中状态下 下一个兄弟节点 左边箭头区域-箭头部分 颜色绿色 */
+    .ui-progress .on + li .triangle-left i {
+      border-color: transparent transparent transparent #b4da9c;
+    }
+    
+    .ui-progress .next .triangle-left {
+      background: #b4da9c;
+    }
+
+    .ui-progress .next .triangle-right i {
+      border-color: transparent transparent transparent #b4da9c;
+    }
+    .ui-progress .next .step {
+      background: #b4da9c;
+      color: #5b8e3c;
+    }
+    </style>
+    
+</head>
+
+<body>
+
+    <div> 
+        <ol class="ui-progress"> 
+            <li class="first on">
+                <span class="step">Customer</span>
+                <div class="triangle triangle-left">
+                  <em></em>
+                  <i></i>
+                </div>
+            </li> 
+            <li class="on">
+              <span class="step">Quote</span>
+              <div class="triangle triangle-right">
+                <em></em>
+                <i></i>
+              </div>
+            </li> 
+            <li class="next">
+                <span class="step">Apply</span>
+                <div class="triangle triangle-right">
+                  <em></em>
+                  <i></i>
+                </div>
+            </li>
+            <li>
+                <span class="step">Buy</span>
+                <div class="triangle">
+                  <em></em>
+                  <i></i>
+                </div>
+            </li>
+            <li class="last">
+                <span class="step">Confirmation</span>
+            </li> 
+        </ol> 
+    </div>
+
+
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h3>Browse</h3>
+                    <ul>
+                        <li><a href="" title="">Hone</a></li>
+                        <li><a href="" title="">Terms and Conditions</a></li>
+                        <li><a href="" title="">Security Poliy</a></li>
+                        <li><a href="" title="">Sitemap</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>My Customers</h3>
+                    <ul>
+                        <li><a href="" title="">New Cuetomer</a></li>
+                        <li><a href="" title="">Existing Customers</a></li>
+                        <li><a href="" title="">Existing Quotations</a></li>
+                        <li><a href="" title="">Existing Applications</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="" title="">Commission Preference</a></li>
+                        <li><a href="" title="">My Details</a></li>
+                        <li><a href="" title="">Change Password</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>Useful Tools</h3>
+                    <ul>
+                        <li><a href="" title="">Our Products</a></li>
+                        <li><a href="" title="">Documents</a></li>
+                        <li><a href="" title="">About us</a></li>
+                        <li><a href="" title="">Counts us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subfooter">
+                <p>
+                    Gryphon is authorized by the Capital Market Authority of the United Kingdom with a license number 37-06046 granted by Capital Market Authority to carry out dealing, as principal and agent, and underwriting, managing, arranging, advising and custody, with respect to securities.
+                </p>
+                <p>
+                    Gryphon, the registered office of which is ay 145-157 St Jhon Street Landon EC1V 4PW, Landon, United Kingdom
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        &copy; Gryphon All Rights Reserved 2016
+    </div>
+
+</body></html>
