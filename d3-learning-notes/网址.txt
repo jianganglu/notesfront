@@ -1,0 +1,17 @@
+数据可视化专题站：
+http://www.ourd3js.com/wordpress/
+
+D3数据可视化系列教程：
+http://blog.csdn.net/column/details/zhangtianxu.html
+
+馒头华华的专栏：
+http://blog.csdn.net/lzhlzz/article/details/39341557
+
+英文版教程：
+http://chimera.labs.oreilly.com/books/1230000000345/index.html
+
+36大数据第一平台：
+http://www.36dsj.com/archives/31717
+
+大量D3.js示例：
+http://www.open-open.com/lib/view/open1387100056093.html
