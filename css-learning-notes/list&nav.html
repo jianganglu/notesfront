@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>对列表应用样式和创建导航条</title>
+  <style>
+    body {
+      margin: 0;
+      line-height: 1.8;
+      font-size: 12px;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+    /*li {
+      padding-left: 30px;
+      background: url("arrow.png") no-repeat 0 50%;
+    }*/
+
+    ul.nav {
+      width: 8em;
+      background-color: #8bd400;
+      border: 1px solid #486B02;
+    }
+
+    ul.nav li {
+      display: inline;
+    }
+
+    ul.nav a {
+      display: block;
+      color: #2b3f00;
+      text-decoration: none;
+      border-top: 1px solid #e4ffd3;
+      border-bottom: 1px solid #486b02;
+      background: url("C:/Users/jianganglu/Desktop/arrow.png") no-repeat 5% 50%;
+      padding: .3em 2em;
+    }
+
+    ul.nav .last a {
+      border-bottom: 0;
+    }
+
+    ul.nav a:hover,
+    ul.nav a:focus,
+    ul.nav .selected a {
+      color: #e4ffd3;
+      background-color: #6da203;
+    }
+
+    ol.pagination {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      overflow: hidden;
+    }
+
+    ol.pagination li {
+      float: left;
+      padding-right: .6em;
+    }
+
+    ol.pagination a,
+    ol.pagination li.selected {
+      display: block;
+      padding: .2em .5em;
+      border: 1px solid #ccc;
+      text-decoration: none;
+    }
+
+    ol.pagination a:hover,
+    ol.pagination a:focus,
+    ol.pagination li.selected {
+      color: #fff;
+      background: blue;
+    }
+
+    ol.pagination a[rel="prev"],
+    ol.pagination a[rel="next"] {
+      border: none;
+    }
+
+    ol.pagination a[rel="prev"]:before {
+      content: "\00AB";
+      padding-right: .5em;
+    }
+
+    ol.pagination a[rel="next"]:after {
+      content: "\00BB";
+      padding-left: .5em;
+    }
+
+    ul.nav1,
+    ul.nav1 ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      float: left;
+      border: 1px solid #486b02;
+      background-color: #8bd400;
+    }
+
+    ul.nav1 li {
+      float: left;
+      width: 8em;
+      background-color: #8bd400;
+    }
+
+    ul.nav1 li ul {
+      width: 8em;
+      position: absolute;
+      left: -999em;
+    }
+
+    ul.nav1 li:hover ul {
+      left: auto;
+    }
+
+    ul.nav1 a {
+      display: block;
+      color: #2b3f00;
+      text-decoration: none;
+      padding: .3em 1em;
+      border-right: 1px solid #486b02;
+      border-left: 1px solid #e4ffd3;
+    }
+
+    ul.nav1 li li a {
+      border-top: 1px solid #e4ffd3;
+      border-bottom: 1px solid #486b02;
+      border-right: 0;
+      border-left: 0;
+    }
+
+    ul.nav1 li:last-child a {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    ul a:hover,
+    ul a:focus {
+      color: #e4fed3;
+      background-color: #6da203;
+    }
+         
+  </style>
+</head>
+<body>
+  <ul>
+    <li>Read emails</li>
+    <li>White chapter</li>
+    <li>Cook dinner</li>
+    <li>Watch Lost</li>
+  </ul>
+
+  <ul class="nav">
+    <li><a href="##">Home</a></li>
+    <li><a href="##">About</a></li>
+    <li><a href="##">Our Services</a></li>
+    <li><a href="##">Our Work</a></li>
+    <li><a href="##">News</a></li>
+    <li class="last"><a href="##">Contact</a></li>
+  </ul>
+
+  <ol class="pagination">
+    <li><a href="##" rel="prev">Prev</a></li>
+    <li><a href="##">1</a></li>
+    <li><a href="##">2</a></li>
+    <li><a href="##">3</a></li>
+    <li><a href="##">4</a></li>
+    <li><a href="##">5</a></li>
+    <li><a href="##" rel="next">Next</a></li>
+  </ol>
+
+  <ul class="nav">
+    <li><a href="##">Home</a></li>
+    <li><a href="##">About</a></li>
+    <li><a href="##">News</a></li>
+    <li><a href="##">Products</a></li>
+    <li><a href="##">Services</a></li>
+    <li><a href="##">Clients</a></li>
+    <li><a href="##">Case Studies</a></li>
+  </ul>
+
+  <ul class="nav1">
+    <li><a href="##">Home</a></li>
+    <li>
+      <a href="##">Products</a>
+      <ul>
+        <li><a href="##">Silverback</a></li>
+        <li><a href="##">Font Deck</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="##">Services</a>
+      <ul>
+        <li><a href="##">Design</a></li>
+        <li><a href="##">Development</a></li>
+        <li><a href="##">Consultancy</a></li>
+      </ul>
+    </li>
+    <li><a href="##">Contact Us</a></li>
+  </ul>
+</body>
+</html>

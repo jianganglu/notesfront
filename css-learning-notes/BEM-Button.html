@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>BEM-Button</title>
+  <style>
+    body {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      border-radius: 3px;
+      padding: 7px 12px;
+      border: 1px solid #D5D5D5;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      font: 700 13px/18px Helvetica, arial;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-image: linear-gradient(#eee, #ddd);
+    }
+
+    .btn--state-success {
+      color: #fff;
+      background: #569e3d linear-gradient(#8add6d, #60b044);
+      border-color: #4A993E;
+    }
+
+    .btn--state-success:hover {
+      background: linear-gradient(#79d858, #569e3d);
+    }
+
+    .btn--state-danger {
+      color: #900;
+    }
+
+    .btn--state-danger:hover {
+      color: #fff;
+      background: linear-gradient(#dc5f59, #b33630);
+    }
+
+    .btn--size-sm {
+      padding: 4px 12px;
+    }
+             
+  </style>
+</head>
+<body>
+  
+  <button class="btn">Normal button</button>
+  <a class="btn">Normal button</a>
+  <div class="btn">Normal button</div>
+
+  <button class="btn btn--state-success">Success button</button>
+  <button class="btn btn--size-sm btn--state-success">Small primary button</button>
+
+  <button class="btn btn--state-danger">Danger button</button>
+
+</body>
+</html>
