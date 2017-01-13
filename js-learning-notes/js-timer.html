@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>对数据表格应用样式</title>
+  <style>
+    body {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-family:"微软雅黑";
+      font-size:40px;
+      margin:20px 0;
+      border-bottom:solid 1px #ccc;
+      padding-bottom:20px;
+      letter-spacing:2px;
+    }
+    .time-item strong {
+      background:#C71C60;
+      color:#fff;
+      line-height:49px;
+      font-size:36px;
+      font-family:Arial;
+      padding:0 10px;
+      margin-right:10px;
+      border-radius:5px;
+      box-shadow:1px 1px 3px rgba(0,0,0,0.2);
+    }
+    #day_show {
+      float:left;
+      line-height:49px;
+      color:#c71c60;
+      font-size:32px;
+      margin:0 10px;
+      font-family:Arial,Helvetica,sans-serif;
+    }
+    .item-title .unit {
+      background:none;
+      line-height:49px;
+      font-size:24px;
+      padding:0 10px;
+      float:left;
+    }
+  </style>
+</head>
+<body>
+  <h1>网页上的倒计时</h1>
+  <div class="time-item">
+    <span id="day_show">0天</span>
+    <strong id="hour_show">0时</strong>
+    <strong id="minute_show">0分</strong>
+    <strong id="second_show">0秒</strong>
+  </div>
+
+  <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+  <script>
+  var vm = {};
+
+  vm.timer = function(int_diff) {
+    window.setInterval(function(){
+      var day=0,
+          hour=0,
+          minute=0,
+          second=0;//时间默认值        
+      if(int_diff > 0){
+        day = Math.floor(int_diff / (60 * 60 * 24));
+        hour = Math.floor(int_diff / (60 * 60)) - (day * 24);
+        minute = Math.floor(int_diff / 60) - (day * 24 * 60) - (hour * 60);
+        second = Math.floor(int_diff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+      }
+      if (minute <= 9) minute = '0' + minute;
+      if (second <= 9) second = '0' + second;
+      $('#day_show').html(day+"天");
+      $('#hour_show').html('<s id="h"></s>'+hour+'时');
+      $('#minute_show').html('<s></s>'+minute+'分');
+      $('#second_show').html('<s></s>'+second+'秒');
+      int_diff--;
+    }, 1000);
+  };
+
+  var int_diff = parseInt(60);//倒计时总秒数量
+  vm.timer(int_diff);
+  </script>
+</body>
+</html>
