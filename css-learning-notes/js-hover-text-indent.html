@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>对数据表格应用样式</title>
+  <style>
+    body {
+      margin: 0;
+      font-size: 12px;
+    }
+
+    .content {
+      width: 200px;
+      padding-right: 20px;
+      line-height: 66px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      cursor: pointer;
+      transition: text-indent .7s ease;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="content">
+    <span>科研试验楼应急广播、科研区应急大广播</span>
+  </div>
+
+  <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+  <script>
+    $('.content').hover(function() {
+      var w = $(this).width();
+      var tw = $(this).find('span').width();
+      var d = tw - w;
+      if(d > 0) {
+        $(this).css('text-indent', -d);
+      }
+    }, function() {
+      $(this).css('text-indent', '0');
+    });
+  </script>
+</body>
+</html>
