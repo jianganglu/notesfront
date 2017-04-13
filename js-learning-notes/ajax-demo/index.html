@@ -1,0 +1,57 @@
+﻿<html>
+  <head>
+    <title>ajax-demo</title>
+  </head>
+  <body>
+    <script src="vendor/jquery/jquery.js"></script>
+    <script>
+    $(function() {
+      'use strict';
+
+      var threadCount=0;
+      $.ajaxSetup({
+        cache : false,
+        beforeSend:function(xhr, settings){
+          console.log(settings.headers);
+          if(!settings.hideDefaultLoading){
+            ++threadCount;
+            $(".km-loading-mask").show();
+      //      $("*:focus").blur();
+          }
+          xhr.hideDefaultLoading=settings.hideDefaultLoading;
+        },
+        complete:function(xhr, settings, a){
+          console.log(settings.headers);
+          if(!xhr.hideDefaultLoading){
+            setTimeout(function(){
+              if(--threadCount){
+                  $(".km-loading-mask").show();
+                }
+                else{
+                  $(".km-loading-mask").hide();
+                }
+              },500);
+          }
+        }
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: 'json/json_0.json',
+        headers: {
+          'test': 1
+        }
+      }).done(function(resp) {
+        console.log(resp);
+      });
+
+      $.ajax({
+        type: 'GET',
+        url: 'json/json_1.json'
+      }).done(function(resp) {
+        console.log(resp);
+      });
+    });
+    </script>
+  </body>
+</html>
