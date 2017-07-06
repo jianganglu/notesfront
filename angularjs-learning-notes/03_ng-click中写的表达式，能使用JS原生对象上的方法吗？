@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<!--
+	不止是ng-click中的表达式，只要是在页面中，都不能直接调用原生的JS方法，因为这些并不存在于页面对应的Controller的$scope中。
+
+	举个栗子：
+
+	<p>{{parseInt(55.66)}}</p>
+
+	会发现，什么也没有显示。
+
+	但如果在$scope中添加了这个函数：
+
+	$scope.parseInt = function(x) {
+		return parseInt(x);
+	}
+
+	对于这种需求，使用一个filter或许是不错的选择：
+
+	<p>{{13.14 | parseIntFilter}}</p>
+
+	app.filter('parseIntFilter', function() {
+		return function(item) {
+			return parseInt(item);
+		}
+	})
+-->
+
+</body>
+</html>

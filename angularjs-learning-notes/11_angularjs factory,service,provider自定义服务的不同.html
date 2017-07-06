@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="app">
+
+<!--
+	
+-->
+<div ng-controller="TestCtrl">
+	<p>{{factorytest}}</p>
+	<p>{{servicetest}}</p>
+	<p>{{providertest}}</p>
+</div>
+
+<script>
+	'use strict';
+
+	/* App Module */
+
+	var phonecatApp = angular.module('app', [
+		'phonecatControllers',
+		'phonecatServices'
+	]);
+</script>
+<script>
+	'use strict';
+
+	/* Controllers */
+
+	var phonecatControllers = angular.module('phonecatControllers', []);
+
+	// function TestCtrl($scope, factorytest, servicetest, providertest) {
+	// 	$scope.factorytest = factorytest.firstname + ' ' + factorytest.lastname();
+	// 	$scope.servicetest = servicetest.firstname + ' ' + servicetest.lastname();
+	// 	$scope.providertest = providertest.firstname + ' ' + providertest.lastname();
+	// };
+	
+	// 以注入的方式来调用，服务名称可以改变
+	phonecatControllers.controller('TestCtrl', ['$scope', 'factorytest', 'servicetest', 'providertest', function($scope, factorytest, servicetest, providertest) {
+		$scope.factorytest = factorytest.firstname + ' ' + factorytest.lastname();
+		$scope.servicetest = servicetest.firstname + ' ' + servicetest.lastname();
+		// $scope.providertest = providertest.firstname + ' ' + providertest.lastname();
+	}]);
+
+	phonecatControllers.controller();
+</script>
+<script>
+	'use strict';
+
+	/* Services */
+	var phonecatServices = angular.module('phonecatServices', []);
+
+	phonecatServices.factory('factorytest', ['$window', function($window) {  // factory方式
+		var test = {
+			firstname: 'tank',
+			lastname: function() {
+				return 'zhang';
+			}
+		};
+
+		$window.alert('aaa'); // 内置服务可以注入
+		return test;
+	}]);
+
+	phonecatServices.service('servicetest', ['$window', function($window) { // service方式
+		$window.alert('bbb'); // 内置服务可以注入
+		this.firstname = 'tank';
+		this.lastname = function() {
+			return 'zhang';
+		}
+	}]);
+
+	phonecatServices.provider('providertest', [function() { // provider方式，内置服务不可以注入
+		this.test = {
+			firstname: 'tank',
+			lastname: 'zhang'
+		}
+
+		this.$get = function() {
+			return this.test;
+		}
+	}]);
+</script>
+</body>
+</html>

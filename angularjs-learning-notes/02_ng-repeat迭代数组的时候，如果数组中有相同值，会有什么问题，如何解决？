@@ -1,0 +1,14 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<!--
+	会提示Duplicates in a repeater are not allowed. 加track by $index可解决。当然，也可以track by任何一个普通的值，只要能唯一性标识数组中的每一项即可（建立dom和数据之间的关联）。
+-->
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="app">
+
+<!--
+	
+-->
+<div ng-controller="TestCtrl">
+	I set the global variable.<strong>{{$root.name}}</strong>
+</div>
+
+<div ng-controller="Test111Ctrl">
+	1,get global variable .<strong>{{name}}</strong><br>
+	2,get global variable .<strong>{{$root.name}}</strong>
+</div>
+
+<script>
+	'use strict';
+
+	var phonecatApp = angular.module('app', []);
+	
+	phonecatApp.controller('TestCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+		$rootScope.name = 'this is test';
+	}]);
+
+	phonecatApp.controller('Test111Ctrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+		$scope.name = $rootScope.name;
+	}]);
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<!--
+	如何看待 angular 1.2 中引入的 controller as 语法？
+
+	最根本的好处
+
+	在 angular 1.2 以前，在 view 上的任何绑定都是直接绑定在 $scope 上的
+
+	function myCtrl($scope){
+    $scope.a = 'aaa';
+    $scope.foo = function(){
+        ...
+    }
+	}
+
+	使用 controllerAs，不需要再注入 $scope，controller 变成了一个很简单的 javascript 对象（POJO），一个更纯粹的 ViewModel。
+
+	function myCtrl(){
+    // 使用 vm 捕获 this 可避免内部的函数在使用 this 时导致上下文改变
+    var vm = this;
+    vm.a = 'aaa';
+	}
+
+	原理
+
+	从源码实现上来看，controllerAs 语法只是把 controller 这个对象的实例用 as 别名在 $scope 上创建了一个属性。
+
+	if (directive.controllerAs) {
+    locals.$scope[directive.controllerAs] = controllerInstance;
+	}
+
+	但是这样做，除了上面提到的使 controller 更加 POJO 外，还可以避免遇到 AngularJS 作用域相关的一个坑（就是上文中 ng-if 产生一级作用域的坑，其实也是 javascript 原型链继承中值类型继承的坑。因为使用 controllerAs 的话 view 上所有字段都绑定在一个引用的属性上，比如 vm.xx，所以坑不再存在）。
+
+	<div ng-controller="TestCtrl as vm">
+    <p>{{name}}</p>
+    <div ng-if="vm.name">
+        <input type="text" ng-model="vm.name">
+    </div>
+	</div>
+
+	问题
+
+	使用 controllerAs 会遇到的一个问题是，因为没有注入 $scope，导致 $emit、 $broadcast、 $on、 $watch 等 $scope 下的方法无法使用。这些跟事件相关的操作可以封装起来统一处理，或者在单个 controller 中引入 $scope，特殊对待。
+-->
+
+</body>
+</html>

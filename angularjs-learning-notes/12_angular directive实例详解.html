@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="app">
+
+<!--
+	
+-->
+<div ng-controller="attrtest">
+	<my-attr info="naomi"></my-attr>
+</div>
+
+<div ng-controller="directive2">
+	<example-directive></example-directive>
+</div>
+
+<script>
+	'use strict';
+
+	var phonecatApp = angular.module('app', [
+		'phonecatDirectives',
+		'dtControllers'
+	]);
+
+	var phonecatDirectives = angular.module('phonecatDirectives', []);
+
+	// directives.js中定义myAttr
+	phonecatDirectives.directive('myAttr', function() {
+		return {
+			restrict: 'E',
+			scope: {
+				customerInfo: '=info'
+			},
+			template: 'Name: {{customerInfo.name}} Address: {{customerInfo.address}}<br>' +
+								'Name: {{vojta.name}} Address: {{vojta.address}}'
+		};
+	});
+	
+	var dtControllers = angular.module('dtControllers', []);
+
+	// controller.js中定义attrtest
+	dtControllers.controller('attrtest', ['$scope', function($scope) {
+		$scope.naomi = { name: 'Naomi', address: '1600 Amphitheatre' };
+		$scope.vojta = { name: 'Vojta', address: '3456 Somewhere Else' };
+	}]);
+
+	// controller, link, compile有什么不同
+	phonecatDirectives.directive('exampleDirective', function() {
+		return {
+			restrict: 'E',
+			template: '<p>Hello {{number}}!</p>',
+			controller: function($scope, $element) {
+				$scope.number = $scope.number + '22222 ';
+			},
+			link: function(scope, el, attr) {
+				scope.number = scope.number + '33333 ';
+			},
+			compile: function(element, attributes) {
+				return {
+					pre: function preLink(scope, element, attributes) {
+						scope.number = scope.number + '44444 ';
+					},
+					post: function postLink(scope, element, attributes) {
+						scope.number = scope.number + '55555 ';
+					}
+				};
+			}
+		};
+	});
+
+	dtControllers.controller('directive2', ['$scope', function($scope) {
+		$scope.number = '1111 ';
+	}]);
+</script>
+</body>
+</html>

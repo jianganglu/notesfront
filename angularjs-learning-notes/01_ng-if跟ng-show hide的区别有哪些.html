@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<!--
+	ng-if跟ng-show/hide的区别有哪些？
+
+	第一点区别是, ng-if在后面表达式为true的时候才创建这个dom节点, ng-show是初始时就创建了，用display:block和display:none来控制显示和不显示。
+
+	第二点区别是，ng-if会（隐式地）产生新作用域, ng-switch、ng-include等会动态创建一块界面的也是如此。
+	这样会导致，在ng-if中用基本变量绑定ng-model，并在外层div中把此model绑定给另一个显示区域，内层改变时，外层不会同步改变，因为此时已经是两个变量了。
+
+	避免这类问题出现的办法是，始终将页面中的元素绑定到对象的属性（data.x）而不是直接绑定到基本变量（x）上。
+-->
+
+<p>{{name}}</p>
+<div ng-if="true">
+	<input type="text" ng-model="name">
+</div>
+
+</body>
+</html>

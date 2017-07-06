@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+<!--
+	
+-->
+
+<script>
+	'use strict';
+
+	var test2 = 'tank' // 方法1,定义全局变量
+
+	var phonecatApp = angular.module('phonecatApp', [
+
+	]);
+
+	phonecatApp.value('test',{"test": "test222","test1": "test111"});  //方法2定义全局变量
+
+	phonecatApp.constant('constanttest', 'this is constanttest');    //方法3定义全局变量
+</script>
+</body>
+</html>

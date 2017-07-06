@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="app">
+
+<!--
+	两个平级界面块a和b，如果a中触发一个事件，有哪些方式能让b知道？详述原理
+
+	这个问题换一种说法就是，如何在平级界面模块间进行通信。有两种方法，一种是共用服务，一种是基于事件。
+
+	共用服务
+
+	在Angular中，通过factory可以生成一个单例对象，在需要通信的模块a和b中注入这个对象即可。
+
+	基于事件
+
+	这个又分两种方式
+
+	第一种是借助父controller。在子controller中向父controller触发（$emit）一个事件，然后在父controller中监听（$on）事件，再广播（$broadcast）给子controller，这样通过事件携带的参数，实现了数据经过父controller之间转播。
+
+	第二种是借助$rootScope。每个Angular应用默认有一个根作用域$rootScope，根作用域位于最顶层，从它往下挂着各级作用域。所以，如果子控制器直接使用$rootScope广播和接收事件，那么就可实现同级之间的通信。
+-->
+
+<div ng-controller="ParentCtrl">           <!-- 父级 -->
+	<div ng-controller="SelfCtrl">           <!-- 自己 -->
+		<a ng-click="click()">click me</a>
+		<div ng-controller="ChildCtrl"></div>  <!-- 子级 -->
+	</div>
+	<div ng-controller="BroCtrl"></div>      <!-- 平级 -->
+</div>
+
+<script>
+	var phonecatControllers = angular.module('app', []);
+
+	phonecatControllers.controller('SelfCtrl', ['$scope', function($scope) {
+		$scope.click = function() {
+			$scope.$broadcast('to-child', 'child');
+			$scope.$emit('to-parent', 'parent');
+		};
+	}]);
+
+	phonecatControllers.controller('ParentCtrl', ['$scope', function($scope) {
+		$scope.$on('to-parent', function(d, data) {
+			console.log(data);
+		});
+
+		$scope.$on('to-child', function(d, data) {
+			console.log(data);
+		})
+	}]);
+
+	phonecatControllers.controller('ChildCtrl', function($scope) {
+		$scope.$on('to-child', function(d, data) {
+			console.log(data);
+		});
+
+		$scope.$on('to-parent', function(d, data) {
+			console.log(data);
+		})
+	});
+
+	phonecatControllers.controller('BroCtrl', function($scope) {
+		$scope.$on('to-parent', function(d, data) {
+			console.log(data);
+		});
+
+		$scope.$on('to-child', function(d, data) {
+			console.log(data);
+		})
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="test">
+
+<!--
+	
+-->
+<div ng-controller="OuterCtrl">
+  <div ng-controller="InnerCtrl">
+    <button increaseb>increase b</button>
+    <span ng-bind="b"></span>
+  </div>
+  <button increasea>increase a</button>
+  <span ng-bind="a"></span>
+</div>
+
+<script>
+	var app = angular.module("test", []);
+
+	app.directive("increasea", function() {
+    return function (scope, element, attr) {
+      element.on("click", function() {
+        scope.a++;
+        scope.$digest();
+      });
+    };
+	});
+
+	app.directive("increaseb", function() {
+    return function (scope, element, attr) {
+      element.on("click", function() {
+        scope.b++;
+        scope.$digest();    //这个换成$apply即可
+      });
+    };
+	});
+
+	app.controller("OuterCtrl", ["$scope", function($scope) {
+    $scope.a = 1;
+
+    $scope.$watch("a", function(newVal) {
+      console.log("a:" + newVal);
+    });
+
+    $scope.$on("test", function(evt) {
+      $scope.a++;
+    });
+	}]);
+
+	app.controller("InnerCtrl", ["$scope", function($scope) {
+    $scope.b = 2;
+
+    $scope.$watch("b", function(newVal) {
+      console.log("b:" + newVal);
+      $scope.$emit("test", newVal);
+    });
+	}]);
+</script>
+</body>
+</html>
