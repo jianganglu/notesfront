@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<style>	
+			html {
+  background: #333;
+  overflow: hidden;
+}
+
+#c {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -260px;
+}
+
+.s {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  float: left;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.s:nth-child(n+2) {
+  margin-left: 80px;
+}
+
+.s1{
+  background: #33ffbb;
+  box-shadow: 0 0 1px 5px #1affd9, 0 0 14px 6px #333, 0 0 12px 14px #1affd9;
+}
+
+
+
+.s2{
+  background: #33ffdd;
+  -webkit-animation: r1 2s 0.25s ease-out infinite;
+  -moz-animation: r1 2s 0.25s ease-out infinite;
+  animation: r1 2s 0.25s ease-out infinite;
+}
+
+@-webkit-keyframes r1 {
+  0% {
+    box-shadow: 0 0 8px 6px rgba(26, 255, 217, 0), 0 0 0px 0px #333, 0 0 0px 0px rgba(26, 255, 217, 0);
+  }
+  10% {
+    box-shadow: 0 0 8px 6px #1affd9, 0 0 12px 10px #333, 0 0 12px 14px #1affd9;
+  }
+  100% {
+    box-shadow: 0 0 8px 6px rgba(26, 255, 217, 0), 0 0 0px 40px #333, 0 0 0px 40px rgba(26, 255, 217, 0);
+  }
+}
+
+@keyframes r1 {
+  0% {
+    box-shadow: 0 0 8px 6px rgba(26, 255, 217, 0), 0 0 0px 0px #333, 0 0 0px 0px rgba(26, 255, 217, 0);
+  }
+  10% {
+    box-shadow: 0 0 8px 6px #1affd9, 0 0 12px 10px #333, 0 0 12px 14px #1affd9;
+  }
+  100% {
+    box-shadow: 0 0 8px 6px rgba(26, 255, 217, 0), 0 0 0px 40px #333, 0 0 0px 40px rgba(26, 255, 217, 0);
+  }
+}
+
+.s3 {
+  background: #33ffdd;
+  box-shadow: 0 0 1px 5px #1affd9, 0 0 14px 6px #333, 0 0 12px 14px #1affd9;
+}
+
+.s4 {
+  background: #33ffdd;
+  -webkit-animation: r1 2s 0.25s ease-out infinite;
+  -moz-animation: r1 2s 0.25s ease-out infinite;
+  animation: r1 2s 0.25s ease-out infinite;
+}
+
+		</style>
+	</head>
+	
+	<body>
+		<div id='c'>
+			<div class='s s1'></div>
+			<div class='s s2'></div>
+			<div class='s s3'></div>
+			<div class='s s4'></div>
+
+		</div>
+	</body>
+</html>
