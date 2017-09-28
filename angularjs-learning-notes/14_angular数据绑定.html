@@ -18,6 +18,11 @@
   <span ng-bind="a"></span>
 </div>
 
+<div ng-controller="CounterCtrl">
+  <span ng-bind="counter"></span>
+  <button ng-click="counter=counter+1">increase</button>
+</div>
+
 <script>
 	var app = angular.module("test", []);
 
@@ -59,6 +64,10 @@
       $scope.$emit("test", newVal);
     });
 	}]);
+
+  app.controller('CounterCtrl', function($scope) {
+      $scope.counter = 1;
+  })
 </script>
 </body>
 </html>

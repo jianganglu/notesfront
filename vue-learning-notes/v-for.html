@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>v-for</title>
+</head>
+<body>
+
+<div id="app">
+	<ol>
+		<li v-for="todo in todos">
+			{{ todo.text }}
+		</li>
+	</ol>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+	var app = new Vue({
+		el: '#app',
+		data: {
+			todos: [
+				{
+					text: '学习JavaScript'
+				},
+				{
+					text: '学习Vue'
+				},
+				{
+					text: '整个牛项目'
+				}
+			]
+		}
+	});
+</script>
+</body>
+</html>

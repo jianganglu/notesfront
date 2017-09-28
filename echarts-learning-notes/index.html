@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Echarts - GL</title>
+	<script src="vendor/jquery.js"></script>
+	<script src="vendor/echarts/echarts.js"></script>
+	<script src="http://api.map.baidu.com/api?v=2.0&ak=RHe2nl4bufUGFhX9Ff3VyYX4LulmcIGg"></script>
+	<script src="vendor/echarts/echarts-gl.js"></script>
+	<script src="vendor/echarts/bmap.min.js"></script>
+</head>
+<body>
+	<div id="main" style="width: 600px;height:400px;"></div>
+	<script>
+		var chart = echarts.init(document.getElementById('main'));
+
+		var uploadedDataURL = "./data/data-1500091095891-ByeJQMPSZ.json";
+
+		$.get(uploadedDataURL, function(data) {
+			console.log(data);
+	    data = data;
+	    chart.setOption(
+	    {
+        bmap: {
+          // center: [108.659774, 21.987087],
+          center: [125.35, 43.86],
+          zoom: 12,
+          roam: true,
+          mapStyle: {
+            'styleJson': [
+		          {
+		            "featureType": "land",
+		            "elementType": "geometry",
+		            "stylers": {
+		            	"color": "#212121"
+		            }
+		          },
+		          {
+		            "featureType": "building",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "color": "#2b2b2b"
+		            }
+		          },
+		          {
+		            "featureType": "highway",
+		            "elementType": "all",
+		            "stylers": {
+		              "lightness": -42,
+		              "saturation": -91
+		            }
+		          },
+		          {
+		            "featureType": "arterial",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "lightness": -77,
+		              "saturation": -94
+		            }
+		          },
+		          {
+		            "featureType": "green",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "color": "#1b1b1b"
+		            }
+		          },
+		          {
+		            "featureType": "water",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "color": "#0f1b24"
+		            }
+		          },
+		          {
+		            "featureType": "subway",
+		            "elementType": "geometry.stroke",
+		            "stylers": {
+		              "color": "#181818"
+		            }
+		          },
+		          {
+		            "featureType": "railway",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "lightness": -52
+		            }
+		          },
+		          {
+		            "featureType": "all",
+		            "elementType": "labels.text.stroke",
+		            "stylers": {
+		              "color": "#313131"
+		            }
+		          },
+		          {
+		            "featureType": "all",
+		            "elementType": "labels.text.fill",
+		            "stylers": {
+		              "color": "#8b8787"
+		            }
+		          },
+		          {
+		            "featureType": "manmade",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "color": "#1b1b1b"
+		            }
+		          },
+		          {
+		            "featureType": "local",
+		            "elementType": "geometry",
+		            "stylers": {
+			            "lightness": -75,
+			            "saturation": -91
+		            }
+		          },
+		          {
+		            "featureType": "subway",
+		            "elementType": "geometry",
+		            "stylers": {
+		              "lightness": -65
+		            }
+		          },
+		          {
+		            "featureType": "railway",
+		            "elementType": "all",
+		            "stylers": {
+		              "lightness": -40
+		            }
+		          },
+		          {
+		            "featureType": "land",
+		            "elementType": "all",
+		            "stylers": {
+		              "color": "#16252e",
+		              "weight": "1",
+		              "lightness": -29
+		            }
+		          }
+						]
+          },
+        },
+        series: [{
+          type: 'lines',
+          coordinateSystem: 'bmap',
+          polyline: true,
+          data: data,
+          silent: true,
+          lineStyle: {
+            normal: {
+              opacity: 0.2,
+              width: 1
+            }
+          },
+          progressiveThreshold: 500,
+          progressive: 100
+        }, {
+          type: 'lines',
+          coordinateSystem: 'bmap',
+          polyline: true,
+          data: data,
+          lineStyle: {
+            normal: {
+              width: 0.02
+            }
+          },
+          effect: {
+            constantSpeed: 40,
+            show: true,
+            trailLength: 0.02,
+            symbolSize: 2
+          },
+          zlevel: 1
+        }]
+	    });
+		});
+	</script>
+</body>
+</html>
