@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>自动打印显示效果</title>
+	<style>
+		@keyframes typing {
+			from {
+				width: 0%;
+			}
+			to {
+				width: 100%;
+			}
+		}
+
+		@keyiframes caret {
+			50% {
+				border-right-color: transparent;
+			}
+		}
+
+		h1 {
+			font: bold 100% "微软雅黑";
+			display: inline-block;
+		}
+
+		.type-effect {
+			white-space: nowrap;
+			overflow: hidden;
+			border-right: .05rem solid;
+			display: inline-block;
+			animation: typing 1s steps(25),caret 1s steps(1) infinite;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<h1>
+			<span class="type-effect">CSS is Awesome! CSS is Awesome! CSS is Awesome!</span>
+		</h1>
+	</div>
+</body>
+</html>
