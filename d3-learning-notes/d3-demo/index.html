@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>d3-demo</title>
+</head>
+<body>
+  <div id="cpu" class="gauge-pane">
+    <svg width="48%"></svg>
+  </div>
+  <script src="vendor/jquery.min.js"></script>
+  <script src="vendor/d3.min.js"></script>
+  <script src="js/liquid_gauge.js"></script>
+  <script>
+
+    var gaugePaneWidth = $('#system_overview .gauge-pane').width(),
+      gaugePaneHeight = $(window).height() * 0.1;
+
+    cpuLiquidGauge = new LiquidGauge({
+      animationTime: 8000,
+      pane : d3.select('#cpu'),
+      graph: d3.select('#cpu svg').attr('height', gaugePaneHeight),
+      radius: gaugePaneHeight * 0.5,
+      circleX : 0,
+      circleY : 0,
+      color : '#526979',
+      title: 'CPU'
+    });
+
+    function updateResource(evt){
+      // var data = JSON.parse(evt.data);
+      //console.log(data);
+      var data = {
+        "time": "2016-07-11 12:03:00",
+        "cpu": {
+          "usage": 30,
+          "used": 0.1,
+          "total": 1
+        },
+        "mem": {
+          "usage": 20,
+          "used": 600.15,
+          "total": 996.28
+        },
+        "disk": {
+          "usage": 3,
+          "used": 3.10,
+          "total": 100 
+        },
+        "net" : {
+          "upload": 32.0,
+          "download": 38.0 
+        }
+      };
+
+      if(!cpuLiquidGauge.isDraw) {
+        cpuLiquidGauge.draw(data['cpu']);
+      } else {
+        cpuLiquidGauge.render(data['cpu']);
+      }
+
+      // if(!memLiquidGauge.isDraw) {
+      //   memLiquidGauge.draw(data['mem']);
+      // } else {
+      //   memLiquidGauge.render(data['mem']);
+      // }
+
+      // if(!diskLiquidGauge.isDraw) {
+      //   diskLiquidGauge.draw(data['disk']);
+      // } else {
+      //   diskLiquidGauge.render(data['disk']);
+      // }
+
+    }
+
+    cpuLiquidGauge.init();
+    updateResource();
+  </script>
+</body>
+</html>

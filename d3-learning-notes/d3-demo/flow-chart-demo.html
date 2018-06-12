@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<defs>
+<radialGradient id="grey_blue" cx="50%" cy="50%" r="50%"
+fx="50%" fy="50%">
+<stop offset="0%" style="stop-color:rgb(200,200,200);
+stop-opacity:0"/>
+<stop offset="100%" style="stop-color:rgb(0,0,255);
+stop-opacity:1"/>
+</radialGradient>
+</defs>
+<style>
+
+#svg>path {
+  fill: none;
+  stroke: #000;
+  stroke-width: 10px;
+}
+
+#path3 {
+  stroke: #f00;
+  stroke-width: 1px;
+}
+
+circle {
+  fill: steelblue;
+  stroke: #fff;
+  stroke-width: 3px;
+}
+
+</style>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var points = [
+  [80, 200],
+  [180, 200],
+  [180, 180],
+  [200, 160],
+  [280, 160],
+  [280, 100],
+  [300, 80],
+  [480, 80],
+  [500, 100],
+  [500, 160],
+  [600, 160],
+  [620, 180],
+  [620, 280],
+  [560, 320],
+  [500, 320],
+  [440, 320],
+  [380, 320]
+];
+
+var points1 = [
+  [80, 200],
+  [390, 80],
+  [390, 160],
+  [390, 240],
+  [500, 160],
+  [620, 230],
+  [620, 280],
+  [500, 320],
+  [440, 320],
+  [380, 320]
+];
+
+var svg = d3.select('body').append('svg')
+    .attr('id', 'svg')
+    .attr('width', 960)
+    .attr('height', 500);
+
+// var path = svg.append('path')
+//     .data([points])
+//     .attr('d', d3.svg.line())
+
+var path = svg.append('path')
+    .data([points])
+    .attr('d', d3.line())
+
+var path3 = svg.append('path')
+    .attr('id', 'path3')
+    .data([points])
+    .attr('d', d3.line())
+
+var path1 = svg.append('path')
+    .data([
+      [
+        [280, 160],
+        [500, 160]
+      ]
+    ])
+    .attr('d', d3.line())
+
+var path2 = svg.append('path')
+    .data([
+      [
+        [180, 200],
+        [180, 220],
+        [200, 240],
+        [480, 240],
+        [500, 220],
+        [500, 100]
+      ]
+    ])
+    .attr('d', d3.line());
+
+var drawCircle = function(svg) {
+  var data = [4, 1];
+
+  var width = 960,
+      height = 500,
+      radius = height / 3 - 10;
+
+  var arc = d3.arc()
+      .innerRadius(radius - 140)
+      .outerRadius(radius - 125)
+
+  var pie = d3.pie()
+      .padAngle(.08);
+
+  var colors = ['#00bbec', '#00bbec'];
+
+  var fill = d3.scaleOrdinal()
+      .domain(d3.range(data.length))
+      .range(colors);
+
+  var g = svg.selectAll('.point')
+      .data(points1)
+    .enter().append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('class', 'svg')
+      .append('g')
+      .attr('transform', function(d) { return 'translate(' + d + ')'; });
+
+  g.selectAll('path')
+      .data(pie(data))
+    .enter().append('path')
+      .style('fill', function(d, i) { return fill(i); })
+      .style('transform', 'rotate(180deg)')
+      .attr('d', arc);
+
+  g.append('circle')
+     .attr('r', radius - 141)
+     .style('fill', '#00bbec');
+
+  g.append('path')
+     .datum({endAngle: 3})
+     .style('fill', '#05a4c5')
+     .style('transform', 'rotate(180deg)')
+     .attr('d', arc.startAngle(2));
+}
+
+drawCircle(svg);
+
+
+// var path = svg.append('path')
+//     .data([points])
+//     .attr('d', d3.svg.line())
+//     .tension(0)
+//     .interpolate('cardinal-closed');
+
+// svg.selectAll(".point")
+//     .data(points)
+//   .enter().append("circle")
+//     .attr("r", 4)
+//     .attr("transform", function(d) { return "translate(" + d + ")"; });
+
+// var circle = svg.append("circle")
+//     .attr("r", 13)
+//     .attr("transform", "translate(" + points[0] + ")");
+
+// transition();
+
+// function transition() {
+//   circle.transition()
+//       .duration(10000)
+//       .attrTween("transform", translateAlong(path.node()))
+//       .each("end", transition);
+// }
+
+// function translateAlong(path) {
+//   var l = path.getTotalLength();
+//   return function(d, i, a) {
+//     return function(t) {
+//       var p = path.getPointAtLength(t * l);
+//       return "translate(" + p.x + "," + p.y + ")";
+//     };
+//   };
+// }
+
+
+// var svg = d3.select("body").append("svg")
+//     .attr("width", 960)
+//     .attr("height", 500);
+
+// var path = svg.append("path")
+//     .data([points])
+//     .attr("d", d3.svg.line()
+//     .tension(0) // Catmull–Rom
+//     .interpolate("cardinal-closed"));
+
+// svg.selectAll(".point")
+//     .data(points)
+//   .enter().append("circle")
+//     .attr("r", 4)
+//     .attr("transform", function(d) { return "translate(" + d + ")"; });
+
+// var circle = svg.append("circle")
+//     .attr("r", 13)
+//     .attr("transform", "translate(" + points[0] + ")");
+
+// transition();
+
+// function transition() {
+//   circle.transition()
+//       .duration(10000)
+//       .attrTween("transform", translateAlong(path.node()))
+//       .each("end", transition);
+// }
+
+// Returns an attrTween for translating along the specified path element.
+// function translateAlong(path) {
+//   var l = path.getTotalLength();
+//   return function(d, i, a) {
+//     return function(t) {
+//       var p = path.getPointAtLength(t * l);
+//       return "translate(" + p.x + "," + p.y + ")";
+//     };
+//   };
+// }
+
+</script>
+
+<script>
+
+var data = [4, 1];
+
+var width = 960,
+    height = 500,
+    radius = height / 3 - 10;
+
+var arc = d3.arc()
+    .innerRadius(radius - 140)
+    .outerRadius(radius - 125)
+
+var pie = d3.pie()
+    .padAngle(.08);
+
+var colors = ['#00bbec', '#00bbec'];
+
+var fill = d3.scaleOrdinal()
+    .domain(d3.range(data.length))
+    .range(colors);
+
+var svg = d3.select('body').append('svg')
+    .attr('width', width)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+
+svg.selectAll('path')
+    .data(pie(data))
+  .enter().append('path')
+    .style('fill', function(d, i) { return fill(i); })
+    .attr('d', arc);
+
+svg.append('circle')
+   .attr('r', radius - 141)
+   .style('fill', '#00bbec');
+
+svg.append('path')
+   .datum({endAngle: 3})
+   .style('fill', '#05a4c5')
+   .attr('d', arc.startAngle(2));
+
+</script>

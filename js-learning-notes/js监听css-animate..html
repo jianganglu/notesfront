@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>css3-animationend - BeyondWeb</title>
+<style>
+* {margin: 0; padding: 0;}
+.rect {
+position: relative;
+width: 100px;
+height: 100px;
+background-color: #f80;
+}
+@-webkit-keyframes move {
+from {
+-webkit-transform: rotate(0);
+}
+to {
+-webkit-transform: rotate(360deg);
+}
+}
+</style>
+<script>
+window.onload = function () {
+var _rect = document.querySelector('.rect');
+_rect.onclick = function () {
+_rect.style.webkitAnimation = 'move 3s';
+}
+_rect.addEventListener('webkitAnimationEnd', function () {
+alert('动画执行完毕！');
+// callback here
+}, false);
+}
+</script>
+</head>
+<body>
+<div class="rect"></div>
+</body>
+</html>

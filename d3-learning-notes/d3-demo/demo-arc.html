@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>demo - arc</title>
+	<style>
+		body {
+			width: 1920px;
+			height: 1080px;
+		}
+
+		.progress-meter .background {
+		  fill: #059296;
+		}
+
+		.progress-meter .foreground {
+		  fill: #bbedeb;
+		}
+
+		.progress-meter circle {
+			fill: none;
+			stroke: #059296;
+			stroke-width: 2;
+		}
+
+		.progress-meter text {
+		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		  font-size: 24px;
+		  font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+	var Arc = function(element, options) {
+		this.element = element;
+		this.options = options;
+		this.init();
+	};
+
+	Arc.prototype.init = function() {
+		var jArc = d3.select(this.element),
+				w = window.parseInt(jArc.style('width')),
+				h = window.parseInt(jArc.style('height')),
+				twoPi = 2 * Math.PI,
+		    formatPercent = d3.format(".0%");
+
+		var data = [
+		 	{
+		 		"device": "PC",
+		 		"value": 25 
+		 	},
+		 	{
+		 		"device": "LAPTOP",
+		 		"value": 20
+		 	},
+		 	{
+		 		"device": "PHONE",
+		 		"value": 15
+		 	},
+		 	{
+		 		"device": "PAD",
+		 		"value": 35
+		 	}
+		];
+
+		var scale = d3.scaleLinear()
+			.domain([0, 100])
+			.range([0, 2 * Math.PI]);
+
+		var arc = d3.arc()
+			.startAngle(0)
+			.innerRadius(180)
+			.outerRadius(240);
+
+		var svg = jArc.append('svg')
+										.attr('width', w)
+										.attr('height', h)
+									.append('g')
+										.attr('transform', 'translate('+ w / 2 +', '+ h / 2 +')');
+
+		var meter = svg.append('g')
+			.attr('class', 'progress-meter');
+
+		meter.append('circle')
+						.attr('r', 250);
+		meter.append('circle')
+				 		.attr('r', 175);
+		meter.append('circle')
+						.attr('r', 100);
+		meter.append('circle')
+						.attr('r', 95)
+						.style('fill', '#059296');
+
+		meter.append('path')
+			.datum({endAngle: twoPi})
+			.attr('class', 'background')
+			.attr('d', arc);
+
+		var foreground = meter.append('path')
+			.datum({endAngle: 0 * twoPi})
+			.attr('class', 'foreground')
+			.style('transform', 'rotate(-90deg)')
+			.attr('d', arc.innerRadius(190).outerRadius(230));
+		
+		// d3.interval(function() {
+			foreground.transition()
+				.duration('750')
+				.attrTween('d', arcTween(scale(50)))
+			// .attr('d', arc.endAngle(scale(25)).innerRadius(190).outerRadius(230))
+		// }, 1500);
+
+		function arcTween(newAngle) {
+			return function(d) {
+				var i = d3.interpolate(d.endAngle, newAngle)
+				return function(t) {
+					d.endAngle = i(t);
+					return arc(d);
+				} 
+			};
+		}
+
+		var text = meter.append('text')
+			.attr('text-anthor', 'middle')
+			.attr('dy', '.35em');
+
+    // var i = d3.interpolate(progress, d3.event.loaded / total);
+    // d3.transition().tween("progress", function() {
+    //   return function(t) {
+    //     progress = i(t);
+    //     foreground.attr("d", arc.endAngle(twoPi * progress));
+    //     text.text(formatPercent(progress));
+    //   };
+    // });
+
+		this.draw();
+	};
+
+	Arc.prototype.draw = function() {
+
+	};
+
+	var arc = new Arc('body', {
+
+	});
+</script>
+</body>
+</html>

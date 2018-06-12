@@ -1,0 +1,18 @@
+[
+    {
+        "reliability": 60,
+        "id": 1
+    },
+    {
+        "reliability": 12,
+        "id": 3
+    },
+    {
+        "reliability": 10,
+        "id": 2
+    },
+    {
+        "reliability": 15,
+        "id": 4
+    }
+]

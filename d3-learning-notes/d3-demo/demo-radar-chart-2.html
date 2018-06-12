@@ -1,0 +1,585 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/ >
+		<title>Smoothed D3.js Radar Chart</title>
+
+		<!-- Google fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+		<!-- D3.js -->
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		
+		<style>
+			body {
+				font-family: 'Open Sans', sans-serif;
+				font-size: 11px;
+				font-weight: 300;
+				fill: #242424;
+				text-align: center;
+				text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+				cursor: default;
+			}
+			
+			.legend {
+				font-family: 'Raleway', sans-serif;
+				fill: #333333;
+			}
+			
+			.tooltip {
+				fill: #333333;
+			}
+		</style>
+	
+	</head>
+	<body>
+
+		<div class="j-radar"></div>
+
+		<!-- <script src="js/radar1.js"></script> -->
+		<script>
+      
+			var RadarChart = function(element, options) {
+				this.element = element
+				this.cfg = {
+					w: 600,        //Width of the circle
+			    h: 600,        //Height of the circle
+			    margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
+			    levels: 3,       //How many levels or inner circles should there be drawn
+			    levelLine: true,
+			    axisLabel: true,
+			    areaLine: true,
+			    maxValue: 0,       //What is the value that the biggest circle will represent
+			    labelFactor: 1.25,   //How much farther than the radius of the outer circle should the labels be placed
+			    wrapWidth: 60,     //The number of pixels after which a label needs to be given a new line
+			    opacityArea: 0.35,   //The opacity of the area of the blob
+			    dotRadius: 4,      //The size of the colored circles of each blog
+			    opacityCircles: 0.1,   //The opacity of the circles of each blob
+			    strokeWidth: 2,    //The width of the stroke around each blob
+			    roundStrokes: true, //If true the area and stroke will follow a round path (cardinal-closed)
+			    radians: 2 * Math.PI,
+			    color: d3.scaleOrdinal(d3.schemeCategory10), //Color function
+			    radarCircleStyle: 'dashed', // hollow - 空心，dashed - 实心
+				};
+
+				if('undefined' !== typeof options) {
+					for(var i in options) {
+						if('undefined' !== typeof options[i]) {
+							this.cfg[i] = options[i];
+						}
+					}
+				}
+
+				this.init();
+			};
+
+			RadarChart.prototype.init = function() {
+				this.initDom();
+				this.draw();
+			};
+
+			RadarChart.prototype.initDom = function() {
+
+				var self = this;
+				var id = this.element;
+				var cfg = this.cfg;
+
+				//If the supplied maxValue is smaller than the actual one, replace by the max in the data
+			  var maxValue = Math.max(cfg.maxValue, d3.max(cfg.data, function(i){ return d3.max(i.map(function(o){return o.value; }))}));
+
+				var allAxis = (cfg.data[0].map(function(i, j){ return i.axis; })); //Names of each axis
+				var total = allAxis.length;         //The number of different axes
+				var radius = Math.min(cfg.w / 2, cfg.h / 2);  //Radius of the outermost circle
+				var angleSlice = Math.PI * 2 / total;   //The width in radians of each "slice"
+
+				//Scale for the radius
+			  var rScale = d3.scaleLinear()
+			    .range([0, radius])
+			    .domain([0, maxValue]);
+
+				//Initiate the radar chart SVG
+			  var svg = d3.select(id).append('svg')
+			      .attr('width',  cfg.w + cfg.margin.left + cfg.margin.right)
+			      .attr('height', cfg.h + cfg.margin.top + cfg.margin.bottom)
+			      .attr('class', 'radar');
+
+			  //Append a g element    
+			  var g = svg.append('g')
+			      .attr('transform', 'translate(' + (cfg.w / 2 + cfg.margin.left) + ',' + (cfg.h / 2 + cfg.margin.top) + ')')
+			      .classed('g-box', 1);
+
+			  //Filter for the outside glow
+			  var filter = g.append('defs').append('filter').attr('id','glow'),
+			    feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
+			    feMerge = filter.append('feMerge'),
+			    feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
+			    feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
+
+			  //Wrapper for the grid & axes
+			  var axisGrid = g.append('g').attr('class', 'axisWrapper');
+
+			  //Draw the background circles
+			  // if(cfg.levelLine) {
+			  // 	axisGrid.selectAll('.levels')
+			  //     .data(d3.range(1,(cfg.levels + 1)).reverse())
+			  //     .enter()
+				 //    .append('circle')
+				 //    .attr('class', 'gridCircle')
+				 //    .attr('r', function(d, i){ return radius / cfg.levels * d; })
+				 //    .style('fill', '#CDCDCD')
+				 //    .style('stroke', '#CDCDCD')
+				 //    .style('fill-opacity', cfg.opacityCircles)
+				 //    .style('filter', 'url(#glow)');
+			  // }
+
+			  if(cfg.levelLine) {
+		      var levelFactors = d3.range(0, cfg.levels).map(function(level) {
+		        return radius * ((level + 1) / cfg.levels);
+		      });
+
+		      var levelGroups = d3.select('.radar').selectAll('g.level-group').data(levelFactors);
+		      // var levelGroups = g.selectAll('g.level-group').data(levelFactors);
+
+		      levelGroups = levelGroups.enter().append('g').merge(levelGroups);
+
+		      levelGroups.exit().remove();
+
+		      levelGroups.attr('class', function(d, i) {
+		        return 'level-group level-group-' + i;
+		      });
+
+		      var levelLine = levelGroups.selectAll('.level').data(function(levelFactor) {
+		        return d3.range(0, total).map(function() {
+		          return levelFactor;
+		        })
+		      });
+
+		      levelLine = levelLine.enter().append('line').merge(levelLine);
+		      levelLine.exit().remove();
+
+		      levelLine
+		        .attr('class', 'level')
+		        .attr('x1', function(levelFactor, i){ return self.getHorizontalPosition(i, levelFactor); })
+		        .attr('y1', function(levelFactor, i){ return self.getVerticalPosition(i, levelFactor); })
+		        .attr('x2', function(levelFactor, i){ return self.getHorizontalPosition(i+1, levelFactor); })
+		        .attr('y2', function(levelFactor, i){ return self.getVerticalPosition(i+1, levelFactor); })
+		        .attr('stroke', '#667c9f')
+		        .attr('transform', function(levelFactor) {
+		        	console.log('levelFactor', levelFactor);
+		          return 'translate(' + ((cfg.w + cfg.margin.left + cfg.margin.right) / 2 - levelFactor) + ', ' + ((cfg.h + cfg.margin.top + cfg.margin.bottom) / 2 - levelFactor) + ')';
+		        });
+		    }
+
+			  //Create the straight lines radiating outward from the center
+			  var axis = axisGrid.selectAll('.axis')
+			    .data(allAxis)
+			    .enter()
+			    .append('g')
+			    .attr('class', 'axis');
+			  //Append the lines
+			  axis.append('line')
+			    .attr('x1', 0)
+			    .attr('y1', 0)
+			    .attr('x2', function(d, i){ return rScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2); })
+			    .attr('y2', function(d, i){ return rScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2); })
+			    .attr('class', 'line')
+			    .style('stroke', '#667c9f')
+			    .style('stroke-width', '2px');
+
+			  //Append the labels at each axis
+			  axis.append('text')
+			    .attr('class', 'legend')
+			    .style('font-size', '11px')
+			    .attr('text-anchor', 'middle')
+			    .attr('dy', '0.35em')
+			    .attr('x', function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice * i - Math.PI / 2); })
+			    .attr('y', function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice * i - Math.PI / 2); })
+			    .text(function(d){ return d; })
+			    .call(this.wrap, cfg.wrapWidth);
+
+			  //Set up the small tooltip for when you hover over a circle
+			  var tooltip = g.append('text')
+			    .attr('class', 'tooltip')
+			    .style('opacity', 0);
+			};
+
+			RadarChart.prototype.draw = function(data) {
+
+				var id = this.element;
+				var cfg = this.cfg;
+				var data = data || cfg.data;
+
+				var g = d3.select('.g-box');
+				var axisGrid = d3.select('.axisWrapper');
+
+				//If the supplied maxValue is smaller than the actual one, replace by the max in the data
+			  var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
+			    
+			  var allAxis = (data[0].map(function(i, j){return i.axis})), //Names of each axis
+			    total = allAxis.length,         //The number of different axes
+			    radius = Math.min(cfg.w / 2, cfg.h / 2),  //Radius of the outermost circle
+			    Format = d3.format('%'),        //Percentage formatting
+			    angleSlice = Math.PI * 2 / total;   //The width in radians of each "slice"
+			  
+			  //Scale for the radius
+			  var rScale = d3.scaleLinear()
+			    .range([0, radius])
+			    .domain([0, maxValue]);
+			    
+			  //Text indicating at what % each level is
+			  if(cfg.axisLabel) {
+			  	var axisLabel = axisGrid.selectAll('.axisLabel')
+			     .data(d3.range(1, (cfg.levels + 1)).reverse())
+
+				  axisLabel = axisLabel.enter().append('text').merge(axisLabel)
+			     .attr('class', 'axisLabel')
+			     .attr('x', 4)
+			     .attr('y', function(d){return -d * radius / cfg.levels;})
+			     .attr('dy', '0.4em')
+			     .style('font-size', '10px')
+			     .attr('fill', '#737373')
+			     .text(function(d, i) { return Format((maxValue * d / cfg.levels).toFixed(0)); });
+
+				  axisLabel.exit().remove();
+			  }
+			  
+			  //The radial line function
+			  var radarLine = d3.radialLine()
+			    .curve(d3.curveLinearClosed)
+			    .radius(function(d) { return rScale(d.value); })
+			    .angle(function(d, i) {  return i * angleSlice; });
+			    
+			  if(cfg.roundStrokes) {
+			    radarLine.curve(d3.curveCardinalClosed);
+			  }
+			        
+			  //Create a wrapper for the blobs  
+			  var blobWrapper = g.selectAll('.radarWrapper')
+			    .data(data);
+
+			  blobWrapper = blobWrapper
+			  	.enter()
+			  	.append('g')
+			  	.merge(blobWrapper)
+			    .attr('class', 'radarWrapper');
+			  
+			  blobWrapper.exit().remove();
+
+			  //Append the backgrounds
+			  if(cfg.areaLine) {
+			  	var radarArea = g.selectAll('.radarArea').data(data);
+
+				  radarArea = radarArea
+				  	.enter()
+				    .append('path')
+				    .merge(radarArea);
+
+				  radarArea.exit().remove();
+
+				  radarArea
+				  	.attr('class', 'radarArea')
+				    
+				    .style('fill', function(d,i) { return cfg.color(i); })
+				    .style('fill-opacity', cfg.opacityArea)
+				    .on('mouseover', function (d,i){
+				      //Dim all blobs
+				      d3.selectAll('.radarArea')
+				        .transition().duration(200)
+				        .style('fill-opacity', 0.1); 
+				      //Bring back the hovered over blob
+				      d3.select(this)
+				        .transition().duration(200)
+				        .style('fill-opacity', 0.7);  
+				    })
+				    .on('mouseout', function(){
+				      //Bring back all blobs
+				      d3.selectAll('.radarArea')
+				        .transition().duration(200)
+				        .style('fill-opacity', cfg.opacityArea);
+				    })
+				    .transition()
+				    .attr('d', function(d,i) { return radarLine(d); });
+			  }
+			    
+			  //Create the outlines
+			  var radarStroke = g.selectAll('.radarStroke').data(data);
+
+			  radarStroke = radarStroke
+			  	.enter()
+			  	.append('path')
+			  	.merge(radarStroke);
+
+			  radarStroke.exit().remove();
+
+			  radarStroke
+			  	.attr('class', 'radarStroke')
+			    .style('stroke-width', cfg.strokeWidth + 'px')
+			    .style('stroke', function(d,i) { return cfg.color(i); })
+			    .style('fill', 'none')
+			    .style('filter' , 'url(#glow)')
+			    .transition()
+			    .attr('d', function(d,i) { return radarLine(d); });
+			  
+			  //Append the circles
+			  var radarCircle = blobWrapper.selectAll('.radarCircle')
+			    .data(function(d,i) { return d; });
+
+			  radarCircle = radarCircle
+			    .enter()
+			    .append('circle')
+			    .merge(radarCircle)
+
+			  radarCircle.exit().remove();
+
+			  radarCircle
+			  	.attr('class', 'radarCircle')
+			    .style('fill', function(d, i, j) { return cfg.color(j); })
+			    .style('fill-opacity', 0.8)
+			    .transition()
+			    .attr('r', cfg.dotRadius)
+			    .attr('cx', function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+			    .attr('cy', function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); });
+
+			  /////////////////////////////////////////////////////////
+			  //////// Append invisible circles for tooltip ///////////
+			  /////////////////////////////////////////////////////////
+			  
+			  //Wrapper for the invisible circles on top
+			  var blobCircleWrapper = g.selectAll('.radarCircleWrapper')
+			    .data(data)
+
+			  blobCircleWrapper.enter()
+			  	.append('g')
+			  	.merge(blobCircleWrapper)
+			    .attr('class', 'radarCircleWrapper');
+
+			  blobCircleWrapper.exit().remove();
+			    
+			  //Append a set of invisible circles on top for the mouseover pop-up
+			  var radarInvisibleCircle = blobCircleWrapper.selectAll('.radarInvisibleCircle')
+			    .data(function(d,i) { return d; })
+			    
+			  radarInvisibleCircle = radarInvisibleCircle
+			  	.enter()
+			  	.append('circle')
+			  	.merge(radarInvisibleCircle)
+
+			  radarInvisibleCircle.exit().remove();
+
+			  radarInvisibleCircle
+			  	.attr('class', 'radarInvisibleCircle')
+			    .style('fill', 'none')
+			    .style('pointer-events', 'all')
+			    .on('mouseover', function(d,i) {
+			      newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+			      newY =  parseFloat(d3.select(this).attr('cy')) - 10;
+			          
+			      d3.select('.tooltip')
+			        .attr('x', newX)
+			        .attr('y', newY)
+			        .text(Format(d.value))
+			        .transition().duration(200)
+			        .style('opacity', 1);
+			    })
+			    .on('mouseout', function(){
+			      d3.select('.tooltip').transition().duration(200)
+			        .style('opacity', 0);
+			    });
+
+			  radarInvisibleCircle
+			  	.transition()
+			    .attr('r', cfg.dotRadius * 1.5)
+			    .attr('cx', function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+			    .attr('cy', function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
+
+			  if(cfg.radarCircleStyle === 'hollow') {
+	        // styles should only be transitioned with css
+	        radarInvisibleCircle
+	          .style('fill', '#fff')
+	          .style('stroke', function(d) {
+	            return cfg.color(d[1])
+	          })
+	          .style('stroke-width', 2);
+	      }
+			};
+
+			RadarChart.prototype.update = function(data) {
+				this.draw(data)
+			};
+
+			RadarChart.prototype.wrap = function(text, width) {
+
+				text.each(function() {
+			    var text = d3.select(this),
+			      words = text.text().split(/\s+/).reverse(),
+			      word,
+			      line = [],
+			      lineNumber = 0,
+			      lineHeight = 1.4, // ems
+			      y = text.attr('y'),
+			      x = text.attr('x'),
+			      dy = parseFloat(text.attr('dy')),
+			      tspan = text.text(null).append('tspan').attr('x', x).attr('y', y).attr('dy', dy + 'em');
+			      
+			    while (word = words.pop()) {
+			      line.push(word);
+			      tspan.text(line.join(' '));
+			      if (tspan.node().getComputedTextLength() > width) {
+			      line.pop();
+			      tspan.text(line.join(' '));
+			      line = [word];
+			      tspan = text.append('tspan').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
+			      }
+			    }
+			  });
+
+			}
+
+			RadarChart.prototype.getPosition = function(i, range, factor, func){
+		    factor = typeof factor !== 'undefined' ? factor : 1;
+		    return range * (1 - factor * func(i * this.cfg.radians / this.cfg.data[0].length));
+		  };
+
+		  RadarChart.prototype.getHorizontalPosition = function(i, range, factor){
+	      return this.getPosition(i, range, factor, Math.sin);
+	    };
+
+		  RadarChart.prototype.getVerticalPosition = function(i, range, factor){
+		    return this.getPosition(i, range, factor, Math.cos);
+		  };
+
+      /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+      
+			////////////////////////////////////////////////////////////// 
+			//////////////////////// Set-Up ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var margin = {top: 100, right: 100, bottom: 100, left: 100},
+				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
+				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+					
+			////////////////////////////////////////////////////////////// 
+			////////////////////////// Data ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var data = [
+					  [//iPhone
+						{axis:"Battery Life",value:0.22},
+						{axis:"Brand",value:0.28},
+						{axis:"Contract Cost",value:0.29},
+						{axis:"Design And Quality",value:0.17},
+						{axis:"Have Internet Connectivity",value:0.22},
+						{axis:"Large Screen",value:0.02},
+						{axis:"Price Of Device",value:0.21},
+						{axis:"To Be A Smartphone",value:0.50}			
+					  ],[//Samsung
+						{axis:"Battery Life",value:0.27},
+						{axis:"Brand",value:0.16},
+						{axis:"Contract Cost",value:0.35},
+						{axis:"Design And Quality",value:0.13},
+						{axis:"Have Internet Connectivity",value:0.20},
+						{axis:"Large Screen",value:0.13},
+						{axis:"Price Of Device",value:0.35},
+						{axis:"To Be A Smartphone",value:0.38}
+					  ],[//Nokia Smartphone
+						{axis:"Battery Life",value:0.26},
+						{axis:"Brand",value:0.10},
+						{axis:"Contract Cost",value:0.30},
+						{axis:"Design And Quality",value:0.14},
+						{axis:"Have Internet Connectivity",value:0.22},
+						{axis:"Large Screen",value:0.04},
+						{axis:"Price Of Device",value:0.41},
+						{axis:"To Be A Smartphone",value:0.30}
+					  ]
+					];
+
+			var data = [
+				[
+					{axis: "strength", value: 13}, 
+		      {axis: "intelligence", value: 6}, 
+		      {axis: "charisma", value: 5},  
+		      {axis: "dexterity", value: 9},  
+		      {axis: "luck", value: 2}
+				],
+				[
+					{axis: "strength", value: 6}, 
+		      {axis: "intelligence", value: 7}, 
+		      {axis: "charisma", value: 10},  
+		      {axis: "dexterity", value: 13},  
+		      {axis: "luck", value: 9}
+				],
+				[
+					{axis: "strength", value: 10}, 
+		      {axis: "intelligence", value: 6}, 
+		      {axis: "charisma", value: 11},  
+		      {axis: "dexterity", value: 15},  
+		      {axis: "luck", value: 5}
+				]
+			]
+
+			var data = [
+				[
+					{axis: "2012年", value: 13}, 
+		      {axis: "2013年", value: 6}, 
+		      {axis: "2014年", value: 5},  
+		      {axis: "2015年", value: 9},  
+		      {axis: "2016年", value: 2}
+				]
+			];
+
+			// var data = [
+			// 	[
+			// 		{axis: "插电式混合动力", value: 13}, 
+		 //      {axis: "燃料电动", value: 6}, 
+		 //      {axis: "纯电动", value: 5}
+			// 	]
+			// ]
+
+			////////////////////////////////////////////////////////////// 
+			//////////////////// Draw the Chart ////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var color = d3.scaleOrdinal()
+				// .range(["#EDC951","#CC333F","#00A0B0"]);
+				// .range(["#EDC951"]);
+				.range(["#27f1ec"]);
+				
+			var radarChartOptions = {
+			  w: width,
+			  h: height,
+			  margin: margin,
+			  maxValue: 0.5,
+			  levels: 5,
+			  roundStrokes: false,
+			  color: color,
+			  data: data,
+			  levelLine: true,
+			  areaLine: false,
+			  axisLabel: true,
+			  radarCircleStyle: 'hollow'
+			};
+			//Call function to draw the Radar chart
+			// RadarChart(".radarChart", data, radarChartOptions);
+			
+			var randomDataset = function() {
+
+				data.map(function(d, i) {
+
+					d.map(function(axis, i) {
+						axis.value = Math.ceil(Math.random() * 10);
+					});
+
+				});
+
+				return data;
+			};
+
+			var radarChart = new RadarChart('.j-radar', radarChartOptions);
+			setInterval(function() {
+				// console.log('randomDataset', randomDataset());
+				radarChart.update(randomDataset());
+			}, 1000 * 1.5);
+		</script>
+	</body>
+</html>

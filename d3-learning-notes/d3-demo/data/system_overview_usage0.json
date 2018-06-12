@@ -1,0 +1,22 @@
+{
+    "time": "2016-07-11 12:03:00",
+    "cpu": {
+        "usage": 30,
+        "used": 0.1,
+        "total": 1
+    },
+    "mem": {
+        "usage": 20,
+        "used": 600.15,
+        "total": 996.28
+    },
+    "disk": {
+        "usage": 3,
+        "used": 3.10,
+        "total": 100 
+    },
+    "net" : {
+        "upload": 32.0,
+        "download": 38.0 
+    }
+}

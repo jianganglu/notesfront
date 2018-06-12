@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var parseTime = d3.timeParse("%d-%b-%y");
+
+var x = d3.scaleTime()
+    .rangeRound([0, width]);
+
+var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+var area = d3.area()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x(d.date); })
+    .y1(function(d) { return y(d.close); });
+
+// d3.tsv("json/area.tsv", function(d) {
+//   d.date = parseTime(d.date);
+//   d.close = +d.close;
+//   return d;
+// }, function(error, data) {
+//   if (error) throw error;
+
+  console.log('data', data);
+
+  var data = [
+    {
+      date: '24-Apr-07',
+      close: 93.24
+    },
+    {
+      date: '25-Apr-07',
+      close: 20
+    },
+    {
+      date: '26-Apr-07',
+      close: 98.84
+    },
+    {
+      date: '27-Apr-07',
+      close: 20
+    },
+    {
+      date: '30-Apr-07',
+      close: 99.80
+    }
+  ];
+
+  d3.map(data, function(d) {
+    d.date = parseTime(d.date);
+    d.close = +d.close;
+  })
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.close; })]);
+  area.y0(y(0));
+
+  g.append("path")
+      .datum(data)
+      .attr("fill", "steelblue")
+      .attr("d", area);
+
+  g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Price ($)");
+// });
+
+</script>

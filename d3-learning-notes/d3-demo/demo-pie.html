@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var data = [4, 1];
+
+var width = 960,
+    height = 500,
+    radius = height / 2 - 10;
+
+var arc = d3.arc()
+    .innerRadius(radius - 140)
+    .outerRadius(radius - 100)
+
+var pie = d3.pie()
+    .padAngle(.08);
+
+var colors = ['#0d476a', '#0d476a'];
+
+var fill = d3.scaleOrdinal()
+    .domain(d3.range(data.length))
+    .range(colors);
+
+var svg = d3.select('body').append('svg')
+    .attr('width', width)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
+
+svg.selectAll('path')
+    .data(pie(data))
+  .enter().append('path')
+    .style('fill', function(d, i) { return fill(i); })
+    .attr('d', arc);
+
+svg.append('circle')
+   .attr('r', radius - 145)
+   .attr('fill', '#0d476a');
+
+svg.append('path')
+   .datum({endAngle: 3})
+   .style('fill', '#05a4c5')
+   .attr('d', arc.startAngle(2));
+
+</script>

@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		body {
+			background: #000000;
+		}
+    .box{position: relative; perspective: 3000px;perspective-origin: center;   margin: 50px auto;  width: 227px; }
+    .big{ transform-style: preserve-3d; animation:rotate  3s ease  infinite ;  }
+    
+    @keyframes rotate{
+    	from{transform:rotateZ(-30deg)   rotateY(0);}
+    	to{transform:rotateZ(-30deg)  rotateY(360deg);}
+    }
+		    
+		.small{
+			position: absolute;
+			width: 227px;
+			height: 227px;
+			border: 1px solid #CFCFCF;
+			border-radius:100%;
+			background: url('img/icon-nav-bg.png') no-repeat 0 0;
+		}
+		.a{transform: rotateY(0deg)  ;  }
+		.b{transform: rotateY(36deg)  ;  }
+		.c{transform: rotateY(72deg)  ;  }
+		.d{transform: rotateY(108deg)  ;  }
+		.e{transform: rotateY(144deg)  ;  }
+		
+		.big::after{content: " ";  position: absolute;left: 0;top:300px; transform: translateX(-150px) translateY(-150px)  rotateZ(90deg);   width: 600px;height: 1px;background: #AC2925; }			
+			
+		</style>
+	</head>
+	<body>
+	  <div class="box">
+		<div class="big">
+			<div class="small a"></div>
+			<div class="small b"></div>
+			<div class="small c"></div>
+			<div class="small d"></div>
+			<div class="small e"></div>
+		</div>
+	  </div>
+	</body>
+</html>

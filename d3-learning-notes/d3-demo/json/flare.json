@@ -1,0 +1,50 @@
+﻿[
+	{
+		"id": "AgglomerativeCluster",
+		"value": 3938
+	},
+	{
+		"id": "CommunityStructure",
+		"value": 3812
+	},
+	{
+		"id": "HierarchicalCluster",
+		"value": 6714
+	},
+	{
+		"id": "MergeEdge",
+		"value": 743
+	},
+	{
+		"id": "graph",
+		"value": ""
+	},
+	{
+		"id": "BetweennessCentrality",
+		"value": 3534
+	},
+	{
+		"id": "LinkDistance",
+		"value": 5731
+	},
+	{
+		"id": "MaxFlowMinCut",
+		"value": 7840
+	},
+	{
+		"id": "ShortestPaths",
+		"value": 5914
+	},
+	{
+		"id": "SpanningTree",
+		"value": 3416
+	},
+	{
+		"id": "optimization",
+		"value": ""
+	},
+	{
+		"id": "AspectRatioBanker",
+		"value": 7074
+	}
+]
